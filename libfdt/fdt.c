@@ -76,19 +76,15 @@ int fdt_check_header(const void *fdt)
 
 const void *fdt_offset_ptr(const void *fdt, int offset, unsigned int len)
 {
-	unsigned int uoffset = offset;
-	unsigned int absoffset = offset + fdt_off_dt_struct(fdt);
+	unsigned absoffset = offset + fdt_off_dt_struct(fdt);
 
-	if (offset < 0)
-		return NULL;
-
-	if ((absoffset < uoffset)
+	if ((absoffset < offset)
 	    || ((absoffset + len) < absoffset)
 	    || (absoffset + len) > fdt_totalsize(fdt))
 		return NULL;
 
 	if (fdt_version(fdt) >= 0x11)
-		if (((uoffset + len) < uoffset)
+		if (((offset + len) < offset)
 		    || ((offset + len) > fdt_size_dt_struct(fdt)))
 			return NULL;
 
